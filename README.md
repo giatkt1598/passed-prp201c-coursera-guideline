@@ -90,6 +90,7 @@ print(",".join(fruits)) # Output: apple,banana,cherry
 fruits.sort(reverse=True)
 print(fruits) # Output: ['cherry', 'banana', 'apple']
 ```
+Create empty list: `lst = list()`
 ### Dictionaries
 A dictionary is a collection which is ordered*, changeable and does not allow duplicates.
 
@@ -128,14 +129,44 @@ Tuples are used to store multiple items in a single variable.
 ```python
 thistuple = ("apple", "banana", "cherry")
 ```
-How to change tuple? You can convert the tuple into a list, change the list, and convert the list back into a tuple.
+## Review course 3: Using Python to Access Web Data
+### Import regular expressions library
 ```python
-x = ("apple", "banana", "cherry")
-y = list(x)
-y[1] = "kiwi"
-x = tuple(y)
-
-print(x)
+import re
 ```
+### Search in strings: `re.search(pattern, string)`
+```python
+import re
+
+hand = open(`mbox-short.txt`)
+for line in hand:
+    line = line.rstrip()
+    if re.search('From:', line): # search line contain 'From:'
+        print(line)
+```
+```python
+import re
+
+s = '122ab'
+if re.search("[0-9]", s): # True
+    print("Contain at least 1 number")
+```
+### Extracting data: `re.findall(pattern, string)`
+```python
+import re
+
+x = 'My 2 favorite numbers are 19 and 42'
+y = re.findall('[0-9]+', x)
+print(y)  # Output: ['2', '19', '42']
+```
+```bash
+
+```
+### Regular expressions
+### Networks and Sockets
+### Program that Surf the Web
+### Web Services and XML
+### JSON and REST Architechture
+
 
 ## Final Quiz: https://quizlet.com/521678301/prp201c-flash-cards/
