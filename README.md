@@ -2,15 +2,49 @@
 ## Table of contents
 [Review course 1: Programming for Everybody (Getting Started with Python)](#course1)
 
+[Review course 2: Python Data Structures](#course2)
+
+[Review course 3: Using Python to Access Web Data](#course3)
+
+[Review course 4: Using Databases](#course4)
+
 [Final Quiz](#final-quiz)
 
 <a name="course1"></a>
 ## Review course 1: Programming for Everybody (Getting Started with Python)
-- Variable & Expression
-- Condition statement (If else)
-- Function
-- Loop and Iteration
+### Variable & Expression
+```python
+x = 5
+print(x)
+```
+### Condition statement (If else)
+```python
+if 5 > 3:
+  print("5 is greater than 3")
+```
+### Function
+```python
+def hello(name):
+    print("Hello, {name}")
+hello("David")
+```
+### Loop and Iteration
+Python has two primitive loop commands:
 
+while loops
+for loops
+
+```python
+i = 1
+while i < 6:
+    print(i)
+    i += 1
+  
+fruits = ["apple", "banana", "cherry"]
+for x in fruits:
+    print(x)
+```
+<a name="course2"></a>
 ## Review course 2: Python Data Structures
 ### Manipulate strings
 
@@ -129,12 +163,15 @@ Tuples are used to store multiple items in a single variable.
 ```python
 thistuple = ("apple", "banana", "cherry")
 ```
+
+<a name="course3"></a>
 ## Review course 3: Using Python to Access Web Data
-### Import regular expressions library
+### Regular Expressions
+#### Import regular expressions library
 ```python
 import re
 ```
-### Search in strings: `re.search(pattern, string)`
+#### Search in strings: `re.search(pattern, string)`
 ```python
 import re
 
@@ -151,7 +188,7 @@ s = '122ab'
 if re.search("[0-9]", s): # True
     print("Contain at least 1 number")
 ```
-### Extracting data: `re.findall(pattern, string)`
+#### Extracting data: `re.findall(pattern, string)`
 ```python
 import re
 
@@ -159,14 +196,150 @@ x = 'My 2 favorite numbers are 19 and 42'
 y = re.findall('[0-9]+', x)
 print(y)  # Output: ['2', '19', '42']
 ```
-```bash
+Some regular expressions
 
-```
-### Regular expressions
+![Simple-RE](images/simple-regular-expressions.png)
 ### Networks and Sockets
 ### Program that Surf the Web
 ### Web Services and XML
-### JSON and REST Architechture
+Extract HTML with BeautifulSoup
+```python
+import urllib.request
+import re
+from bs4 import BeautifulSoup
 
+# http://py4e-data.dr-chuck.net/known_by_Shaarvin.html
+link = input("Enter URL:")
+count = int(input("Enter count:"))  # 7
+position = int(input("Enter position:"))  # 18
+
+while count >= 0:
+    print("Retrieving:", link)
+    data = urllib.request.urlopen(link).read().decode()
+    soup = BeautifulSoup(data, "html.parser")
+    knownPeople = soup.findAll("a")[position - 1]
+
+    urlUser = re.search("http://.*html", str(knownPeople)).group()
+    nameUser = BeautifulSoup(str(knownPeople), "html.parser").text
+    link = urlUser
+    count -= 1
+
+```
+### JSON and REST Architechture
+Use python to call API
+```python
+import json
+import urllib.request
+import urllib.parse
+
+apiEndPoint = "http://py4e-data.dr-chuck.net/json?"
+
+address = input("Enter location:")
+params = {
+    "key": 42,
+    "address": address
+}
+url = apiEndPoint + urllib.parse.urlencode(params)
+print("Retrieving", url)
+responseData = urllib.request.urlopen(url).read()
+print("Retrieved", len(responseData))
+placeId = json.loads(responseData)["results"][0]["place_id"]
+print("Place id", placeId)
+```
+<a name="course4"></a>
+## Review course 4: Using Databases
+### Object oriented programming (OOP)
+Create class and object:
+```python
+class Student:
+    def __init__(self, name, age, testScore):
+        self.name = name
+        self.age = age
+        self.testScore = testScore
+
+    def introduce(self):
+        return f"My name is {self.name}. I'm {self.age} years old. My test cores is {self.testScore}."
+
+
+david = Student("B.David", 21, 4)
+print(david.introduce())
+```
+### Basic Structured Query Language
+Read data from file datafile.txt and put it into database
+```bash
+import sqlite3
+import re
+
+conn = sqlite3.connect("mydb.sqlite")
+cur = conn.cursor()
+
+cur.execute("DROP TABLE IF EXISTS InFos")
+
+cur.execute('''
+    CREATE TABLE InFos (ProCode INTEGER, Deleted TEXT)
+''')
+
+fname = "datafile.txt"
+fh = open(fname)
+for line in fh:
+    s = str(line)
+    if not s[0].isdigit():
+        continue
+    arr = (" ".join(s.split())).split(" ")
+    cur.execute('''
+        INSERT INTO InFos(ProCode, Deleted) VALUES (?, ?)
+    ''', (arr[0], arr[3]))
+    conn.commit()
+
+sqlstr = 'SELECT ProCode, Deleted FROM InFos'
+
+for row in cur.execute(sqlstr):
+    print(row[0], row[1])
+cur.close()
+
+```
+```python
+import sqlite3
+import re
+
+conn = sqlite3.connect('use-databases-with-python-week-2-asm-2.sqlite')
+cur = conn.cursor()
+
+cur.execute('DROP TABLE IF EXISTS Counts')
+
+cur.execute('''
+CREATE TABLE Counts (org TEXT, count INTEGER)''')
+
+# fname = input('Enter file name: ')
+fname = "mbox.txt"
+if (len(fname) < 1):
+    fname = 'mbox.txt'
+fh = open(fname)
+for line in fh:
+    if not line.startswith('From: '):
+        continue
+    pieces = line.split()
+    email = pieces[1]
+    regResult = str(re.search("@[a-zA-Z0-9]+\S+", email).group())
+    org = regResult[1:]
+    cur.execute('SELECT count FROM Counts WHERE org = ? ', (org,))
+    row = cur.fetchone()
+    if row is None:
+        cur.execute('''INSERT INTO Counts (org, count)
+                VALUES (?, 1)''', (org,))
+    else:
+        cur.execute('UPDATE Counts SET count = count + 1 WHERE org = ?',
+                    (org,))
+    conn.commit()
+
+# https://www.sqlite.org/lang_select.html
+sqlstr = 'SELECT org, count FROM Counts ORDER BY count DESC LIMIT 10'
+
+for row in cur.execute(sqlstr):
+    print(str(row[0]), row[1])
+
+cur.close()
+
+```
 
 ## Final Quiz: https://quizlet.com/521678301/prp201c-flash-cards/
