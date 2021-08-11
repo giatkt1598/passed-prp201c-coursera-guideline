@@ -8,7 +8,9 @@
 
 [Review course 4: Using Databases](#course4)
 
-[Final Quiz](#final-quiz)
+[Example Practical Exam](#pe)
+
+[Final Exam](#fe)
 
 <a name="course1"></a>
 ## Review course 1: Programming for Everybody (Getting Started with Python)
@@ -341,6 +343,7 @@ for row in cur.execute(sqlstr):
 cur.close()
 
 ```
+<a name="pe"></a>
 ## Example Practical Exam
 ![Topic1](images/de1a.PNG)
 ```python
@@ -444,5 +447,5 @@ for row in cur.execute(sqlstr):
     print(row[0], row[1])
 cur.close()
 ```
-
-## Final Quiz: https://quizlet.com/521678301/prp201c-flash-cards/
+<a name="fe"></a>
+## Final Exam: https://quizlet.com/521678301/prp201c-flash-cards/
