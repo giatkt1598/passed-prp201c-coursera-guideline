@@ -12,20 +12,34 @@
 - Loop and Iteration
 
 ## Review course 2: Python Data Structures
-* **Manipulate strings**
-- Compare string
-- lower(), 
-- upper(), 
-- rstrip([chars]), 
-- lstrip([chars]),
-- strip([chars), 
-- replace(old, new [,count]), 
-- capitalize(), 
-- center(width[, fillchar])
-- endswith(suffix[, start[, end]]),
-- find(sub[, start[, end]])
-- len(param)
-* **Files**
+### Manipulate strings
+
+    Compare strings
+
+    lower(), 
+
+    upper(), 
+
+    rstrip([chars]), 
+
+    lstrip([chars]),
+
+    strip([chars),
+
+    replace(old, new [,count]), 
+
+    capitalize(), 
+
+    center(width[, fillchar])
+
+    endswith(suffix[, start[, end]]),
+
+    find(sub[, start[, end]])
+
+    len(param)
+
+### Files
+
 Open file:  open(filename, mode)
 
 mode:
@@ -64,6 +78,17 @@ f = open("demofile3.txt", "r")
 print(f.read())
 ```
 <a name="final-quiz"></a>
-* **List**
+### List
+List is a kind of collection
+```python
+mylist = [1, [5, "cherry"], 'banana', "\n", 2.4, True]
+print(len(mylist) # Output: 6
+print(mylist[1]) # Output: [5, 'cherry']
+
+fruits = ["apple", "banana", "cherry"]
+print(",".join(fruits)) # Output: apple,banana,cherry
+fruits.sort(reverse=True)
+print(fruits) # Output: ['cherry', 'banana', 'apple']
+```
 
 ## Final Quiz: https://quizlet.com/521678301/prp201c-flash-cards/
