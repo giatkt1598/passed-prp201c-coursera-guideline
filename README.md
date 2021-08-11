@@ -90,5 +90,52 @@ print(",".join(fruits)) # Output: apple,banana,cherry
 fruits.sort(reverse=True)
 print(fruits) # Output: ['cherry', 'banana', 'apple']
 ```
+### Dictionaries
+A dictionary is a collection which is ordered*, changeable and does not allow duplicates.
+
+*As of Python version 3.7, dictionaries are ordered. In Python 3.6 and earlier, dictionaries are unordered.*
+```python
+thisdict = {
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+}
+x = thisdict["model"]
+print(x)
+thisdict["year"] = 2018
+thisdict["color"] = "red"
+thisdict.pop("model")
+for x in thisdict:
+  print(x)
+mydict = thisdict.copy() # copy dictionary
+```
+Nested Dictionary
+```bash
+myfamily = {
+  "child1" : {
+    "name" : "Emil",
+    "year" : 2004
+  },
+  "child2" : {
+    "name" : "Tobias",
+    "year" : 2007
+  }
+}
+```
+## Tuples
+Tuples are like the lists but tuples are *immutable*.
+Tuples are used to store multiple items in a single variable.
+```python
+thistuple = ("apple", "banana", "cherry")
+```
+How to change tuple? You can convert the tuple into a list, change the list, and convert the list back into a tuple.
+```python
+x = ("apple", "banana", "cherry")
+y = list(x)
+y[1] = "kiwi"
+x = tuple(y)
+
+print(x)
+```
 
 ## Final Quiz: https://quizlet.com/521678301/prp201c-flash-cards/
