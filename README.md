@@ -342,6 +342,107 @@ cur.close()
 
 ```
 ## Example Practical Exam
+![Topic1](images/de1a.PNG)
+```python
+import re
 
+
+def isCorrectPassword(password):
+    pValid = True
+    if not re.search("[a-z]", password):
+        pValid = False
+    if not re.search("[0-9]", password):
+        pValid = False
+    if not re.search("[A-Z]", password):
+        pValid = False
+    if not re.search("[$#@]", password):
+        pValid = False
+    if len(password) < 6:
+        pValid = False
+    if len(password) > 12:
+        pValid = False
+    return pValid
+
+
+passwordList = input("Passwords: ").split(",")
+validPasswords = []
+
+for p in passwordList:
+    if isCorrectPassword(p):
+        validPasswords.append(p)
+print("Valid passwords: ", ",".join(validPasswords))
+```
+![Topic2](images/de1b.PNG)
+![Topic2](images/de1c.PNG)
+![Topic2](images/de1d.PNG)
+```python
+class Student:
+    def __init__(self, name, age, testScore):
+        self.name = name
+        self.age = age
+        self.testScore = testScore
+
+    def toString(self):
+        return f"Name: {self.name} | Age: {self.age} | Test scores: {self.testScore}"
+
+
+students = [
+    Student("Gia", 13, 6),
+    Student("Duy", 21, 8),
+    Student("Viet", 21, 1),
+    Student("Thang", 21, 5),
+    Student("Hoang", 21, 6),
+]
+
+
+def printStudents():
+    for s in students:
+        print(s.toString())
+
+
+print("Before sort:")
+printStudents()
+
+
+def sortByName(s):
+    return s.name
+
+
+students.sort(reverse=False, key=sortByName)
+
+print("After sort:")
+printStudents()
+```
+```python
+import sqlite3
+import re
+
+conn = sqlite3.connect("bai3db.sqlite")
+cur = conn.cursor()
+
+cur.execute("DROP TABLE IF EXISTS InFos")
+
+cur.execute('''
+    CREATE TABLE InFos (ProCode INTEGER, Deleted TEXT)
+''')
+
+fname = "datafile.txt"
+fh = open(fname)
+for line in fh:
+    s = str(line)
+    if not s[0].isdigit():
+        continue
+    arr = (" ".join(s.split())).split(" ")
+    cur.execute('''
+        INSERT INTO InFos(ProCode, Deleted) VALUES (?, ?)
+    ''', (arr[0], arr[3]))
+    conn.commit()
+
+sqlstr = 'SELECT ProCode, Deleted FROM InFos'
+
+for row in cur.execute(sqlstr):
+    print(row[0], row[1])
+cur.close()
+```
 
 ## Final Quiz: https://quizlet.com/521678301/prp201c-flash-cards/
