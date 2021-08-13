@@ -421,7 +421,6 @@ try:
     cur.execute("""
         CREATE TABLE InFos (ProCode INTEGER, Deleted TEXT)
     """)
-    dataList = list()
     fhand = open("datafile.txt", "r")
     for line in fhand.readlines():
         if not re.match("^[0-9]+", line):
