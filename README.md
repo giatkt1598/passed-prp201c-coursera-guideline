@@ -418,32 +418,36 @@ printStudents()
 import sqlite3
 import re
 
-conn = sqlite3.connect("bai3db.sqlite")
-cur = conn.cursor()
+conn = sqlite3.connect("dbFPT.sqlite")
+try:
+    cur = conn.cursor()
 
-cur.execute("DROP TABLE IF EXISTS InFos")
+    cur.execute("DROP TABLE IF EXISTS InFos")
 
-cur.execute('''
-    CREATE TABLE InFos (ProCode INTEGER, Deleted TEXT)
-''')
-
-fname = "datafile.txt"
-fh = open(fname)
-for line in fh:
-    s = str(line)
-    if not s[0].isdigit():
-        continue
-    arr = (" ".join(s.split())).split(" ")
-    cur.execute('''
-        INSERT INTO InFos(ProCode, Deleted) VALUES (?, ?)
-    ''', (arr[0], arr[3]))
-    conn.commit()
-
-sqlstr = 'SELECT ProCode, Deleted FROM InFos'
-
-for row in cur.execute(sqlstr):
-    print(row[0], row[1])
-cur.close()
+    cur.execute("""
+        CREATE TABLE InFos (ProCode INTEGER, Deleted TEXT)
+    """)
+    dataList = list()
+    fhand = open("datafile.txt", "r")
+    for line in fhand.readlines():
+        if not re.match("^[0-9]+", line):
+            continue
+        splitted = re.findall("\S+", line)
+        cur.execute("INSERT INTO InFos(ProCode, Deleted) VALUES (?, ?)",
+                    (splitted[0], splitted[3]))
+        conn.commit()
+    cur.execute("SELECT COUNT(*) FROM InFos")
+    print("Number of processed records:", cur.fetchone()[0])
+    cur.execute(
+        "SELECT ProCode, Deleted FROM InFos ORDER BY ProCode DESC LIMIT 3")
+    for row in cur.fetchall():
+        print(row[0], row[1])
+    cur.close()
+except Exception as ex:
+    print(ex)
+finally:
+    if conn:
+        conn.close()
 ```
 <a name="fe"></a>
 ## Final Exam: https://quizlet.com/521678301/prp201c-flash-cards/
