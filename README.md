@@ -380,40 +380,38 @@ print("Valid passwords: ", ",".join(validPasswords))
 ![Topic2](images/de1d.PNG)
 ```python
 class Student:
-    def __init__(self, name, age, testScore):
+    def __init__(self, name, age, testScores):
         self.name = name
         self.age = age
-        self.testScore = testScore
-
-    def toString(self):
-        return f"Name: {self.name} | Age: {self.age} | Test scores: {self.testScore}"
+        self.testScores = testScores
 
 
-students = [
-    Student("Gia", 13, 6),
-    Student("Duy", 21, 8),
-    Student("Viet", 21, 1),
-    Student("Thang", 21, 5),
-    Student("Hoang", 21, 6),
-]
+numStudent = int(input("Number of students: "))
+students = list()
+for n in range(0, numStudent):
+    print(f"Student {n + 1}:")
+    name = input("Name: ")
+    age = int(input("Age: "))
+    testScores = float(input("Test scores: "))
+    students.append(Student(name, age, testScores))
+    print("-------------")
 
 
 def printStudents():
     for s in students:
-        print(s.toString())
+        print(f"{s.name} | {s.age} | {s.testScores}")
 
 
 print("Before sort:")
 printStudents()
+print("After sort: ")
 
 
-def sortByName(s):
-    return s.name
+def sortByAlphabetName(student):
+    return student.name
 
 
-students.sort(reverse=False, key=sortByName)
-
-print("After sort:")
+students.sort(key=sortByAlphabetName)
 printStudents()
 ```
 ```python
