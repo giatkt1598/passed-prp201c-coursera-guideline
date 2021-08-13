@@ -406,12 +406,7 @@ print("Before sort:")
 printStudents()
 print("After sort: ")
 
-
-def sortByAlphabetName(student):
-    return student.name
-
-
-students.sort(key=sortByAlphabetName)
+students.sort(key=lambda x: x.name)
 printStudents()
 ```
 ```python
