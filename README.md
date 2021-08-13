@@ -405,7 +405,6 @@ def printStudents():
 print("Before sort:")
 printStudents()
 print("After sort: ")
-
 students.sort(key=lambda x: x.name)
 printStudents()
 ```
